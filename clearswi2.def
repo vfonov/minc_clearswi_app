@@ -1,0 +1,27 @@
+Bootstrap: docker
+From: julia:1.10.0-bookworm
+
+%files 
+    entrypoint.sh /env/entrypoint.sh
+    clearswi_minc.jl /env/clearswi_minc.jl
+# TODO: copy Project.toml and Manifest to create directory
+
+%post
+    mkdir -p /julia
+    export JULIA_DEPOT_PATH=/julia
+    julia -e 'using Pkg; Pkg.activate("/env"); Pkg.add(["Minc2", "ArgParse"]); Pkg.add(url="https://github.com/vfonov/ROMEO.jl.git"); Pkg.add(url="https://github.com/vfonov/MriResearchTools.jl.git"); Pkg.add(url="https://github.com/vfonov/CLEARSWI.jl.git")'
+
+%environment
+    export JULIA_DEPOT_PATH=/julia
+
+%runscript
+    ${JULIA_PATH}/bin/julia --project=/env /env/clearswi_minc.jl $@
+
+%test
+    ${JULIA_PATH}/bin/julia --project=/env -e 'using Pkg; Pkg.activate("/env"); print(Pkg.status())'
+    ${JULIA_PATH}/bin/julia --project=/env /env/clearswi_minc.jl --help
+
+%help 
+    This is a clearswi container
+
+
