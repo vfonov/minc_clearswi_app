@@ -1,0 +1,6 @@
+[deps]
+ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
+CLEARSWI = "06ae4d9b-ce5e-4813-a1b3-426e46312ec2"
+Minc2 = "8e6f2f06-34e2-40fe-8437-e396464d2a7f"
+MriResearchTools = "557dad86-b9bd-4533-8525-1a39684d020f"
+ROMEO = "1ea8258b-a15d-4adb-ad20-01632f467a84"
