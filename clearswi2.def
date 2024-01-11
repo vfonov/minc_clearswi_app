@@ -8,8 +8,13 @@ From: julia:1.10.0-bookworm
 
 %post
     mkdir -p /julia
+    chmod 777 /julia
+    chmod 777 -R /env
     export JULIA_DEPOT_PATH=/julia
+    export JULIA_CPU_TARGET="generic;sandybridge,-xsaveopt,clone_all;haswell,-rdrnd,base(1)"
     julia -e 'using Pkg; Pkg.activate("/env"); Pkg.add(["Minc2", "ArgParse"]); Pkg.add(url="https://github.com/vfonov/ROMEO.jl.git"); Pkg.add(url="https://github.com/vfonov/MriResearchTools.jl.git"); Pkg.add(url="https://github.com/vfonov/CLEARSWI.jl.git")'
+    chmod a+w -R /env /julia # HACK to make julia happy
+    find /julia -type d -exec chmod a+x '{}' '+'
 
 %environment
     export JULIA_DEPOT_PATH=/julia
@@ -23,5 +28,3 @@ From: julia:1.10.0-bookworm
 
 %help 
     This is a clearswi container
-
-
