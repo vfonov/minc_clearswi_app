@@ -1,2 +1,2 @@
-CLEARSWI for minc
+# CLEARSWI Docker container for minc
 

@@ -11,6 +11,7 @@ RUN addgroup --gid $GID nonroot && \
 
 USER nonroot
 ENV JULIA_DEPOT_PATH=/julia
+
 # to make binary compatible with older CPUs
 ENV JULIA_CPU_TARGET="generic;sandybridge,-xsaveopt,clone_all;haswell,-rdrnd,base(1)"
 RUN julia -e 'using Pkg; Pkg.activate("/env"); Pkg.add(["Minc2", "ArgParse"]); Pkg.add(url="https://github.com/vfonov/ROMEO.jl.git"); Pkg.add(url="https://github.com/vfonov/MriResearchTools.jl.git"); Pkg.add(url="https://github.com/vfonov/CLEARSWI.jl.git")'
@@ -18,12 +19,6 @@ COPY --chown=nonroot:nonroot entrypoint.sh /env/entrypoint.sh
 COPY --chown=nonroot:nonroot clearswi_minc.jl /env/clearswi_minc.jl
 
 
-# #COPY --chown=nonroot:nonroot . /home/nonroot/app
-# ENV HOME /home/nonroot
-# WORKDIR /home/nonroot
-
-#COPY entrypoint.sh /
-#RUN  chmod u+x /entrypoint.sh
 # RUNNING as root to create a transient user for the container
 USER root
 RUN chmod a+w -R /env && \
